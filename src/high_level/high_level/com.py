@@ -53,29 +53,29 @@ class ComNode(Node):
     def changeLinear(self, speedValue):
         self.changePWMSpeed(speedValue)
 
-    def changeAngular(self, angularPos):
-        self.changePWMDir(angularPos)
+    def changeAngular(self, angleValue):
+        self.changePWMDir(angleValue)
 
-    def changePWMSpeed(self, angleValue):
+    def changePWMSpeed(self, speedValue):
         order_type = 98
-        isRight = (angleValue >= 0)
+        isRight = (speedValue >= 0)
         self.defineRightOrLeft(isRight)
-        arg = abs(angleValue)
+        arg = abs(speedValue)
         self.sendOrder(order_type, arg)
         if self.verbose == 1:
-                self.get_logger().info("\t" + str(angleValue))
+                self.get_logger().info(str(speedValue))
         if self.verbose == 2:
             self.get_logger().info("change speed " + str(arg))
             self.get_logger().info("is For: "+ str(isRight))
         
-    def changePWMDir(self, speedValue):
+    def changePWMDir(self, angleValue):
         order_type = 97
-        isFor = (speedValue >= 0)
+        isFor = (angleValue >= 0)
         self.defineForOrBack(isFor)
-        arg = abs(speedValue)
+        arg = abs(angleValue)
         self.sendOrder(order_type, arg)
         if self.verbose == 1:
-            self.get_logger().info(str(speedValue))
+            self.get_logger().info("\t" + str(angleValue))
         if self.verbose == 2:
             self.get_logger().info("change rot "+ str(arg))
             self.get_logger().info("is For: "+ str(isFor))
@@ -96,9 +96,6 @@ class ComNode(Node):
     def sendOrder(self, octet1 : int, octet2 : int): #octet1 and octet2 should not be more that 8 bits
         trame = int.to_bytes( (octet1 << 8 ) | octet2, 2, "big")
         self.arduino.write(trame)
-
-
-
 
 def main(args=None):
     rclpy.init(args=args)
