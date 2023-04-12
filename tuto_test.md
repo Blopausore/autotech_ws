@@ -14,6 +14,7 @@ Donc essayer le moins possible de modifier du code sur la jetson.
 Le dossier monthlery est buggé sur le github mais pas sur la jetson, c'est normal sur le github si il n'est pas accessible.
 ## Lidar to ai
 
+### Step 1
 * Alimentation à moins de 24V (23.--V)
 * brancher le lidar : brancher le câble noir (la masse) en premier puis le rouge
 * brancher câble ethernet
@@ -24,6 +25,10 @@ ros2 run urg_node urg_node_driver --ros-args --params-file ./install/urg_node/sh
 * lancer le noeud lidar_to_ai : ros2 run monthlery lidar_to_ai
 * lancer le noeud ai_node : ros2 run autotech_ros2_pkg ai_node
 * observer les topics et voir si le retour du lidar est cohérent et voir si la réponse du modèle l'est aussi
+
+### Step 2 : Vérifier le bon fonctionnement des fonctions de linerarisation
+
+### Step 3 : Vérifier que les bonnes échelles sont employées
 
 
 

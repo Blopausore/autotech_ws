@@ -23,7 +23,7 @@ class TeleopNode(Node):
         self.get_logger().info("press Q to quit")
         self.linearSpeed = 0
         self.angularPos = 0
-        self.cmd_car = self.create_publisher(Order, "/monthlery/cmd_car", 10)
+        self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
 
     def sendOrder(self, value, type):
         order = Order()

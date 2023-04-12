@@ -26,7 +26,6 @@ speed_com_scale = [-255, 255]
 
 print(os.getcwd())
 models_path = "./src/"
-
 model_name = "model"
 
 class AI(Node):
@@ -76,7 +75,7 @@ class AINode(AI):
         super().__init__(**kargs)
 
         # Publisher
-        self.cmd_car = self.create_publisher(Order, "/monthlery/cmd_car", 10)
+        self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
         # Subscriber
         self.sub_car = self.create_subscription(
                 Float32MultiArray, "/covaps/toAI", self.callback_pub, 10
