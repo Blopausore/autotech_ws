@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/smaug/TSP/autotech_ws/src/covaps
+CMAKE_SOURCE_DIR = /home/aurelien/autotech_ws/src/covaps
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/smaug/TSP/autotech_ws/build/covaps
+CMAKE_BINARY_DIR = /home/aurelien/autotech_ws/build/covaps
 
 # Utility rule file for ament_cmake_python_copy_covaps.
 
@@ -67,7 +67,7 @@ include CMakeFiles/ament_cmake_python_copy_covaps.dir/compiler_depend.make
 include CMakeFiles/ament_cmake_python_copy_covaps.dir/progress.make
 
 CMakeFiles/ament_cmake_python_copy_covaps:
-	/usr/bin/cmake -E copy_directory /home/smaug/TSP/autotech_ws/build/covaps/rosidl_generator_py/covaps /home/smaug/TSP/autotech_ws/build/covaps/ament_cmake_python/covaps/covaps
+	/usr/bin/cmake -E copy_directory /home/aurelien/autotech_ws/build/covaps/rosidl_generator_py/covaps /home/aurelien/autotech_ws/build/covaps/ament_cmake_python/covaps/covaps
 
 ament_cmake_python_copy_covaps: CMakeFiles/ament_cmake_python_copy_covaps
 ament_cmake_python_copy_covaps: CMakeFiles/ament_cmake_python_copy_covaps.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/ament_cmake_python_copy_covaps.dir/clean:
 .PHONY : CMakeFiles/ament_cmake_python_copy_covaps.dir/clean
 
 CMakeFiles/ament_cmake_python_copy_covaps.dir/depend:
-	cd /home/smaug/TSP/autotech_ws/build/covaps && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/smaug/TSP/autotech_ws/src/covaps /home/smaug/TSP/autotech_ws/src/covaps /home/smaug/TSP/autotech_ws/build/covaps /home/smaug/TSP/autotech_ws/build/covaps /home/smaug/TSP/autotech_ws/build/covaps/CMakeFiles/ament_cmake_python_copy_covaps.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/aurelien/autotech_ws/build/covaps && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/aurelien/autotech_ws/src/covaps /home/aurelien/autotech_ws/src/covaps /home/aurelien/autotech_ws/build/covaps /home/aurelien/autotech_ws/build/covaps /home/aurelien/autotech_ws/build/covaps/CMakeFiles/ament_cmake_python_copy_covaps.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ament_cmake_python_copy_covaps.dir/depend
 

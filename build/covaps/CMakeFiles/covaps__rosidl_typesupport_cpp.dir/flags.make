@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DRCUTILS_ENABLE_FAULT_INJECTION -DROSIDL_TYPESUPPORT_CPP_BUILDING_DLL -DROS_PACKAGE_NAME=\"covaps\"
 
-CXX_INCLUDES = -I/home/smaug/TSP/autotech_ws/build/covaps/rosidl_generator_cpp -isystem /opt/ros/humble/include/rosidl_runtime_cpp -isystem /opt/ros/humble/include/rosidl_runtime_c -isystem /opt/ros/humble/include/rcutils -isystem /opt/ros/humble/include/rosidl_typesupport_interface -isystem /opt/ros/humble/include/rosidl_typesupport_cpp -isystem /opt/ros/humble/include/rosidl_typesupport_c
+CXX_INCLUDES = -I/home/aurelien/autotech_ws/build/covaps/rosidl_generator_cpp -isystem /opt/ros/humble/include/rosidl_runtime_cpp -isystem /opt/ros/humble/include/rosidl_runtime_c -isystem /opt/ros/humble/include/rcutils -isystem /opt/ros/humble/include/rosidl_typesupport_interface -isystem /opt/ros/humble/include/rosidl_typesupport_cpp -isystem /opt/ros/humble/include/rosidl_typesupport_c
 
 CXX_FLAGS = -fPIC -Wall -std=gnu++14
 

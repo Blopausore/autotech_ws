@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/smaug/TSP/autotech_ws/src/covaps
+CMAKE_SOURCE_DIR = /home/aurelien/autotech_ws/src/covaps
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/smaug/TSP/autotech_ws/build/covaps
+CMAKE_BINARY_DIR = /home/aurelien/autotech_ws/build/covaps
 
 # Utility rule file for covaps_uninstall.
 
@@ -67,7 +67,7 @@ include CMakeFiles/covaps_uninstall.dir/compiler_depend.make
 include CMakeFiles/covaps_uninstall.dir/progress.make
 
 CMakeFiles/covaps_uninstall:
-	/usr/bin/cmake -P /home/smaug/TSP/autotech_ws/build/covaps/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
+	/usr/bin/cmake -P /home/aurelien/autotech_ws/build/covaps/ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake
 
 covaps_uninstall: CMakeFiles/covaps_uninstall
 covaps_uninstall: CMakeFiles/covaps_uninstall.dir/build.make
@@ -82,6 +82,6 @@ CMakeFiles/covaps_uninstall.dir/clean:
 .PHONY : CMakeFiles/covaps_uninstall.dir/clean
 
 CMakeFiles/covaps_uninstall.dir/depend:
-	cd /home/smaug/TSP/autotech_ws/build/covaps && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/smaug/TSP/autotech_ws/src/covaps /home/smaug/TSP/autotech_ws/src/covaps /home/smaug/TSP/autotech_ws/build/covaps /home/smaug/TSP/autotech_ws/build/covaps /home/smaug/TSP/autotech_ws/build/covaps/CMakeFiles/covaps_uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/aurelien/autotech_ws/build/covaps && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/aurelien/autotech_ws/src/covaps /home/aurelien/autotech_ws/src/covaps /home/aurelien/autotech_ws/build/covaps /home/aurelien/autotech_ws/build/covaps /home/aurelien/autotech_ws/build/covaps/CMakeFiles/covaps_uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/covaps_uninstall.dir/depend
 

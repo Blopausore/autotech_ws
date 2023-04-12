@@ -1,6 +1,6 @@
 {
   "package_name": "covaps",
   "non_idl_tuples": [
-    "/home/smaug/TSP/autotech_ws/src/covaps:msg/Order.msg"
+    "/home/aurelien/autotech_ws/src/covaps:msg/Order.msg"
   ]
 }

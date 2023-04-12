@@ -1,9 +1,9 @@
 {
   "package_name": "covaps",
-  "output_dir": "/home/smaug/TSP/autotech_ws/build/covaps/rosidl_typesupport_c/covaps",
+  "output_dir": "/home/aurelien/autotech_ws/build/covaps/rosidl_typesupport_c/covaps",
   "template_dir": "/opt/ros/humble/share/rosidl_typesupport_c/resource",
   "idl_tuples": [
-    "/home/smaug/TSP/autotech_ws/build/covaps/rosidl_adapter/covaps:msg/Order.idl"
+    "/home/aurelien/autotech_ws/build/covaps/rosidl_adapter/covaps:msg/Order.idl"
   ],
   "target_dependencies": [
     "/opt/ros/humble/lib/rosidl_typesupport_c/rosidl_typesupport_c",
@@ -12,6 +12,6 @@
     "/opt/ros/humble/share/rosidl_typesupport_c/resource/idl__type_support.cpp.em",
     "/opt/ros/humble/share/rosidl_typesupport_c/resource/msg__type_support.cpp.em",
     "/opt/ros/humble/share/rosidl_typesupport_c/resource/srv__type_support.cpp.em",
-    "/home/smaug/TSP/autotech_ws/build/covaps/rosidl_adapter/covaps/msg/Order.idl"
+    "/home/aurelien/autotech_ws/build/covaps/rosidl_adapter/covaps/msg/Order.idl"
   ]
 }
