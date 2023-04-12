@@ -6,7 +6,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from nav_msgs.msg import OccupancyGrid
-from math import sqrt, atan, pi
 import os
 
 from std_msgs.msg import Float32MultiArray
