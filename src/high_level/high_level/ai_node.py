@@ -17,8 +17,12 @@ from high_level.personal_tools import linear_transformation
 ##
 #%%
 
-speed_model_scale = [-1, 1]
-speed_com_scale = [-255, 255]
+model_scale = [-1, 1]
+com_scale = [-255, 255]
+seuil = 125 #Speed limit
+inc_speed = 0.1 #Maximum of incrementation speed
+max_speed = 5.5
+
 
 ##
 #%%
@@ -86,7 +90,7 @@ class AINode(AI):
         
 
     def angle_rescale(self, x):
-        return linear_transformation(x, speed_model_scale, speed_com_scale)
+        return linear_transformation(x, model_scale, com_scale)
         
 
     def callback_pub(self, array : Float32MultiArray):
@@ -98,7 +102,7 @@ class AINode(AI):
         )
         
         self.get_logger().info(str(array.data[0]))
-        self.speed += numpy.float32(action[0])
+        self.speed += (numpy.float32(action[0])*inc_speed*com_scale[1])/max_speed
         angular_speed = numpy.float32(action[1])
 
 
