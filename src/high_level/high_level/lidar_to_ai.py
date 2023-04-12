@@ -6,22 +6,38 @@ import tf2_ros
 from std_msgs.msg import Float32MultiArray
 #from geometry_msgs.msg import PoseStamped, TransformStamped
 
+from high_level.personal_tools import linear_transformation
+
 number_laser_points = 1081
-'''
+##
+#%%
+
+laser_lidar_scale = [0, 64]
+laser_model_scale = [0, 4]
+
+##
+#%%
+
+
 def convertToAIdata2(obs, theta=90, number_points=18):
     angle_by_point = 360 / number_laser_points
     opening_index_0 = int((180 - theta) / angle_by_point)
     opening_index_1 = int((180 + theta) / angle_by_point)
     # Add points and so enlarged the opening angle until we got a suitable number of points
+    add_coast = True
     while not ((opening_index_1 - opening_index_0) % number_points)  == 0 :
         if add_coast :
-	    opening_index_0 -= 1
+            opening_index_0 -= 1
         else :
-	    opening_index_1 += 1
+            opening_index_1 += 1
+        add_coast = not add_coast
     step = (opening_index_1 - opening_index_0)//number_points
-    ai_list = [[laser_scan] for laser_scan in obs[opening_index_0 : opening_index_1 : step]]
+    ai_list = [
+        [linear_transformation(laser_scan, laser_lidar_scale, laser_model_scale)] 
+        for laser_scan in obs[opening_index_0 : opening_index_1 : step]
+        ]
     return ai_list
-'''
+
 def convertToAIdata(scanList) :
     length = len(scanList)
     indexStart = int(length/8)
@@ -33,9 +49,6 @@ def convertToAIdata(scanList) :
         lastList.append(ListwithoutBackward[i*step])
     print(len(lastList))
     return lastList
-
-
-
 
 class LidarToAi(Node):
     def __init__(self):

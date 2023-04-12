@@ -1,0 +1,12 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/smaug/Documents/ProjetGate-VoitureAutonome/Autotech2022_2023/ros2_ws/install/AutoTech_ros2_pkg/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/smaug/Documents/ProjetGate-VoitureAutonome/Autotech2022_2023/ros2_ws/install/AutoTech_ros2_pkg/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}

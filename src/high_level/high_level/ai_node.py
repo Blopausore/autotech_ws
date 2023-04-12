@@ -13,6 +13,17 @@ from std_msgs.msg import Float32MultiArray
 from stable_baselines3 import PPO
 
 from covaps.msg import Order
+from high_level.personal_tools import linear_transformation
+
+##
+#%%
+
+speed_model_scale = [-10, 10]
+speed_com_scale = [-255, 255]
+
+##
+#%%
+
 print(os.getcwd())
 models_path = "./src/"
 
@@ -74,27 +85,6 @@ class AINode(AI):
         # End initialize
         self.get_logger().info(" node has been started")
         
-
-    def callback_pub(self, array : Float32MultiArray):
-        
-        data = wrapperDupauvre(array.data) 
-        action, _ = self.model.predict(
-            data,
-            deterministic=True
-        )
-        
-        self.get_logger().info(str(array.data[0]))
-        Sx, Sy = numpy.float32(action[0]), numpy.float32(action[1])
-
-        linear_speed, angular_speed = get_lin_and_ang_speed(Sx, Sy)
-
-        order_angular = create_order("angular", angular_speed)
-        self.cmd_car.publish(order_angular)
-        order_linear = create_order("speed", linear_speed)
-        self.cmd_car.publish(order_linear)
-        
-        self.get_logger().info("Model predict: {}".format(str(action[0])))
-    
     def angle_opening(self, obs, theta=45, number_points=17):
         ''' Return the point that are in the opening angle in the direction of the car
         PARAMETERS
@@ -115,8 +105,43 @@ class AINode(AI):
             add_coast = not add_coast
         step = (opening_index_1 - opening_index_0)//number_points
 
-        return obs[opening_index_0 : opening_index_1 : step]
+        return list(map(
+            lambda x : linear_transformation(x, laser_lidar_scale, laser_model_scale),
+            obs[opening_index_0 : opening_index_1 : step]
+        ))
+    
+    def angle_rescale(self, x):
+        return linear_transformation(x, speed_model_scale, speed_com_scale)
         
+
+    def callback_pub(self, array : Float32MultiArray):
+        
+        data = wrapperDupauvre(array.data) 
+        action, _ = self.model.predict(
+            self.angle_opening(data),
+            deterministic=True
+        )
+        
+        self.get_logger().info(str(array.data[0]))
+        Sx, Sy = numpy.float32(action[0]), numpy.float32(action[1])
+
+        linear_speed, angular_speed = get_lin_and_ang_speed(Sx, Sy)
+
+        order_angular = create_order(
+            "angular",
+            self.angle_rescale(angular_speed)
+        )
+        self.cmd_car.publish(order_angular)
+
+        order_linear = create_order(
+            "speed",
+            self.angle_rescale(linear_speed)
+        )
+        self.cmd_car.publish(order_linear)
+        
+        self.get_logger().info("Model predict: {}".format(str(action[0])))
+    
+
 ##
 #%%
 
