@@ -1,7 +1,6 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
-#from nav_msgs.msg import Odometry
 import tf2_ros
 from std_msgs.msg import Float32MultiArray
 #from geometry_msgs.msg import PoseStamped, TransformStamped
@@ -58,7 +57,6 @@ class LidarToAi(Node):
 
     def scan_callback(self, scan_msg):
         msg = Float32MultiArray()   
-        #msg.data = convertToAIdata2(scan_msg.ranges)
         msg.data = convertToAIdata2(scan_msg.ranges)
         self.get_logger().info("{} | {}".format(str(len(msg.data), str(msg.data[8]))))
         self.pub.publish(msg)
