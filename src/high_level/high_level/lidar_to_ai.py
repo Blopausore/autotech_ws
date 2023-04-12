@@ -33,8 +33,8 @@ def convertToAIdata2(obs, theta=90, number_points=18):
         add_coast = not add_coast
     step = (opening_index_1 - opening_index_0)//number_points
     ai_list = [
-        [linear_transformation(laser_scan, laser_lidar_scale, laser_model_scale)] 
-        for laser_scan in obs[opening_index_0 : opening_index_1 : step]
+        linear_transformation(laser_scan, laser_lidar_scale, laser_model_scale)
+        for laser_scan in obs[opening_index_0 : opening_index_1 : step] if laser_scan < 4
         ]
     return ai_list
 
@@ -57,10 +57,10 @@ class LidarToAi(Node):
         self.pub = self.create_publisher(Float32MultiArray,'/covaps/toAI', 10)
 
     def scan_callback(self, scan_msg):
-        self.get_logger().info(str(scan_msg.ranges[500]))
         msg = Float32MultiArray()   
         #msg.data = convertToAIdata2(scan_msg.ranges)
-        msg.data = convertToAIdata(scan_msg.ranges)
+        msg.data = convertToAIdata2(scan_msg.ranges)
+        self.get_logger().info(str(msg.data[8]))
         self.pub.publish(msg)
 
 def main(args=None):
