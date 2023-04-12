@@ -1,0 +1,4 @@
+source;share/covaps/local_setup.bash
+source;share/covaps/local_setup.dsv
+source;share/covaps/local_setup.sh
+source;share/covaps/local_setup.zsh

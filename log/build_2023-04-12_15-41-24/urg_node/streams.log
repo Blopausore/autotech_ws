@@ -1,0 +1,36 @@
+[0.016s] Invoking command in '/home/smaug/TSP/autotech_ws/build/urg_node': CMAKE_PREFIX_PATH=/home/smaug/Documents/ProjetGate-VoitureAutonome/Autotech2022_2023/ros2_ws/install/AutoTech_ros2_pkg:/opt/ros/humble /usr/bin/cmake /home/smaug/TSP/autotech_ws/src/urg_node -DCMAKE_INSTALL_PREFIX=/home/smaug/TSP/autotech_ws/install/urg_node
+[0.103s] -- The C compiler identification is GNU 11.3.0
+[0.177s] -- The CXX compiler identification is GNU 11.3.0
+[0.187s] -- Detecting C compiler ABI info
+[0.256s] -- Detecting C compiler ABI info - done
+[0.270s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.271s] -- Detecting C compile features
+[0.272s] -- Detecting C compile features - done
+[0.276s] -- Detecting CXX compiler ABI info
+[0.358s] -- Detecting CXX compiler ABI info - done
+[0.366s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.366s] -- Detecting CXX compile features
+[0.367s] -- Detecting CXX compile features - done
+[0.372s] -- Found ament_cmake: 1.3.3 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.567s] -- Found Python3: /usr/bin/python3.10 (found version "3.10.6") found components: Interpreter 
+[0.682s] -- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0")  
+[0.693s] [31mCMake Error at CMakeLists.txt:22 (find_package):
+[0.693s]   By not providing "Finddiagnostic_updater.cmake" in CMAKE_MODULE_PATH this
+[0.694s]   project has asked CMake to find a package configuration file provided by
+[0.694s]   "diagnostic_updater", but CMake did not find one.
+[0.694s] 
+[0.694s]   Could not find a package configuration file provided by
+[0.694s]   "diagnostic_updater" with any of the following names:
+[0.694s] 
+[0.694s]     diagnostic_updaterConfig.cmake
+[0.694s]     diagnostic_updater-config.cmake
+[0.694s] 
+[0.695s]   Add the installation prefix of "diagnostic_updater" to CMAKE_PREFIX_PATH or
+[0.695s]   set "diagnostic_updater_DIR" to a directory containing one of the above
+[0.695s]   files.  If "diagnostic_updater" provides a separate development package or
+[0.695s]   SDK, be sure it has been installed.
+[0.695s] 
+[0.695s] [0m
+[0.695s] -- Configuring incomplete, errors occurred!
+[0.695s] See also "/home/smaug/TSP/autotech_ws/build/urg_node/CMakeFiles/CMakeOutput.log".
+[0.699s] Invoked command in '/home/smaug/TSP/autotech_ws/build/urg_node' returned '1': CMAKE_PREFIX_PATH=/home/smaug/Documents/ProjetGate-VoitureAutonome/Autotech2022_2023/ros2_ws/install/AutoTech_ros2_pkg:/opt/ros/humble /usr/bin/cmake /home/smaug/TSP/autotech_ws/src/urg_node -DCMAKE_INSTALL_PREFIX=/home/smaug/TSP/autotech_ws/install/urg_node
