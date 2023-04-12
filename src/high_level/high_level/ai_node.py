@@ -18,7 +18,7 @@ from high_level.personal_tools import linear_transformation
 ##
 #%%
 
-speed_model_scale = [-10, 10]
+speed_model_scale = [-1, 1]
 speed_com_scale = [-255, 255]
 
 ##
@@ -82,33 +82,9 @@ class AINode(AI):
         )
         
         # End initialize
-        self.get_logger().info(" node has been started")
+        self.get_logger().info("AI node has been started")
         
-    def angle_opening(self, obs, theta=45, number_points=17):
-        ''' Return the point that are in the opening angle in the direction of the car
-        PARAMETERS
-        ----------
-            theta : float
-                Angle in degree
-        '''
-        angle_by_point = 360 / self.number_laser_points
-        opening_index_0 = int((180 - theta) / angle_by_point)
-        opening_index_1 = int((180 + theta) / angle_by_point)
-        add_coast = True #True for index_0 and so False for index_1
-        # Add points and so enlarged the opening angle until we got a suitable number of points
-        while not (opening_index_1 - opening_index_0) % number_points == 0:
-            if add_coast:
-                opening_index_0-=1
-            else:
-                opening_index_1+=1
-            add_coast = not add_coast
-        step = (opening_index_1 - opening_index_0)//number_points
 
-        return list(map(
-            lambda x : linear_transformation(x, laser_lidar_scale, laser_model_scale),
-            obs[opening_index_0 : opening_index_1 : step]
-        ))
-    
     def angle_rescale(self, x):
         return linear_transformation(x, speed_model_scale, speed_com_scale)
         
@@ -117,7 +93,7 @@ class AINode(AI):
         
         data = wrapperDupauvre(array.data) 
         action, _ = self.model.predict(
-            self.angle_opening(data),
+            data,
             deterministic=True
         )
         
@@ -130,6 +106,7 @@ class AINode(AI):
             "angular",
             self.angle_rescale(angular_speed)
         )
+
         self.cmd_car.publish(order_angular)
 
         order_linear = create_order(
@@ -138,7 +115,9 @@ class AINode(AI):
         )
         self.cmd_car.publish(order_linear)
         
-        self.get_logger().info("Model predict: {}".format(str(action[0])))
+        self.get_logger().info(
+            "Model predict: {} | {}".format(str(round(action[0],3)), str(round(action[1], 3)))
+        )
     
 
 ##
