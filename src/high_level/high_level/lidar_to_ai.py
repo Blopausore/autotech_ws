@@ -7,7 +7,7 @@ from std_msgs.msg import Float32MultiArray
 
 from high_level.personal_tools import linear_transformation
 
-number_laser_points = 1081
+
 ##
 #%%
 
@@ -18,8 +18,8 @@ laser_model_scale = [0, 4]
 #%%
 
 
-def convertToAIdata2(obs, theta=90, number_points=18):
-    angle_by_point = 360 / number_laser_points
+def convertToAIdata2(scan_list, theta=90, number_points=18):
+    angle_by_point = 360 / len(scan_list)
     opening_index_0 = int((180 - theta) / angle_by_point)
     opening_index_1 = int((180 + theta) / angle_by_point)
     # Add points and so enlarged the opening angle until we got a suitable number of points
@@ -33,7 +33,7 @@ def convertToAIdata2(obs, theta=90, number_points=18):
     step = (opening_index_1 - opening_index_0)//number_points
     ai_list = [
         linear_transformation(laser_scan, laser_lidar_scale, laser_model_scale)
-        for laser_scan in obs[opening_index_0 : opening_index_1 : step] if laser_scan < 4
+        for laser_scan in scan_list[opening_index_0 : opening_index_1 : step] if laser_scan < 4
         ]
     return ai_list
 
