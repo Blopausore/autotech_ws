@@ -60,7 +60,7 @@ class LidarToAi(Node):
         msg = Float32MultiArray()   
         #msg.data = convertToAIdata2(scan_msg.ranges)
         msg.data = convertToAIdata2(scan_msg.ranges)
-        self.get_logger().info(str(msg.data[8]))
+        self.get_logger().info("{} | {}".format(str(len(msg.data), str(msg.data[8]))))
         self.pub.publish(msg)
 
 def main(args=None):
