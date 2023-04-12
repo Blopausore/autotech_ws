@@ -23,7 +23,7 @@ class ComNode(Node):
         self.stm.port = self.pathMicro
         self.stm.baudrate = self.baudrate
 
-        self.cmd_recv = self.create_subscription(Order, "/monthlery/cmd_car", self.rcv_order, 10)
+        self.cmd_recv = self.create_subscription(Order, "/ai/cmd_car", self.rcv_order, 10)
 
     def rcv_order(self, order: Order):
         if (order.type == "speed"):
