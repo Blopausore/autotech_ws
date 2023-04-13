@@ -63,9 +63,9 @@ class ComNode(Node):
         arg = abs(angleValue)
         self.sendOrder(order_type, arg)
         if self.verbose == 1:
-                self.get_logger().info(str(arg))
+                self.get_logger().info("\t" + str(angleValue))
         if self.verbose == 2:
-            self.get_logger().info("change speed " + str(arg) )
+            self.get_logger().info("change speed " + str(arg))
             self.get_logger().info("is For: "+ str(isRight))
         
     def changePWMDir(self, speedValue):
@@ -75,7 +75,7 @@ class ComNode(Node):
         arg = abs(speedValue)
         self.sendOrder(order_type, arg)
         if self.verbose == 1:
-            self.get_logger().info("\t" + str(arg))
+            self.get_logger().info(str(speedValue))
         if self.verbose == 2:
             self.get_logger().info("change rot "+ str(arg))
             self.get_logger().info("is For: "+ str(isFor))
