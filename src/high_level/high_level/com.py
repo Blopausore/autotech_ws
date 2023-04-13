@@ -15,6 +15,9 @@ SPEED_LIMIT = 500
 class ComNode(Node):
     def __init__(self):
         super().__init__("com_node")
+
+        # Recommend verbose : 2 for teleop | 1 for ai
+        self.verbose = 1
         self.get_logger().info("com node started")
         
         self.find_path_micro()
@@ -40,14 +43,14 @@ class ComNode(Node):
         
     def rcv_order(self, order: Order):
         if (order.type == "speed"):
-            self.changeSpeed(order.val)
+            self.changeLinear(order.val)
         elif (order.type == "angular"):
             self.changeAngular(order.val)
         else :
             self.get_logger().warning("invalide type")
 
 
-    def changeSpeed(self, speedValue):
+    def changeLinear(self, speedValue):
         self.changePWMSpeed(speedValue)
 
     def changeAngular(self, angularPos):
@@ -59,19 +62,23 @@ class ComNode(Node):
         self.defineRightOrLeft(isRight)
         arg = abs(angleValue)
         self.sendOrder(order_type, arg)
-        self.get_logger().info("change speed " + str(arg) )
-        self.get_logger().info("is For: "+ str(isRight))
+        if self.verbose == 1:
+                self.get_logger().info(str(arg))
+        if self.verbose == 2:
+            self.get_logger().info("change speed " + str(arg) )
+            self.get_logger().info("is For: "+ str(isRight))
         
-
-
     def changePWMDir(self, speedValue):
         order_type = 97
         isFor = (speedValue >= 0)
         self.defineForOrBack(isFor)
         arg = abs(speedValue)
         self.sendOrder(order_type, arg)
-        self.get_logger().info("change rot "+ str(arg))
-        self.get_logger().info("is For: "+ str(isFor))
+        if self.verbose == 1:
+            self.get_logger().info("\t" + str(arg))
+        if self.verbose == 2:
+            self.get_logger().info("change rot "+ str(arg))
+            self.get_logger().info("is For: "+ str(isFor))
 
 
     def defineForOrBack(self, isFor) :
@@ -86,10 +93,7 @@ class ComNode(Node):
         else :
             self.sendOrder(100, 0)
 
-
-
     def sendOrder(self, octet1 : int, octet2 : int): #octet1 and octet2 should not be more that 8 bits
-        self.get_logger().info('{} | {}'.format(str(octet1), str(octet2)))
         trame = int.to_bytes( (octet1 << 8 ) | octet2, 2, "big")
         self.arduino.write(trame)
 
