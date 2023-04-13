@@ -120,12 +120,12 @@ class AINode(AI):
         )
         
         self.linear_speed = self.put_in_scale(
-            self.angle_rescale(numpy.float32(action[0])),
+            self.angle_rescale(numpy.float32(action[0]), derivative_coefficient) + self.linear_speed,
             speed_limit
         )
  
         self.angular_speed = self.put_in_scale(
-            self.angle_rescale(numpy.float32(action[1]), derivative_coefficient) + self.angular_speed,
+            self.angle_rescale(numpy.float32(action[1])),
             angle_limit
         )
         
