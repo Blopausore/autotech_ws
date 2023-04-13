@@ -32,6 +32,7 @@ class ComNode(Node):
         idx = 0
         while not os.path.exists("/dev/ttyUSB" + str(idx)): idx+=1
         self.path_micro = "/dev/ttyUSB" + str(idx)
+        self.get_logger().info("USB path found : {}".format(self.path_micro))
 
     def rcv_order(self, order: Order):
         if (order.type == "speed"):
@@ -42,7 +43,7 @@ class ComNode(Node):
             self.get_logger().warning("invalide type")
 
 
-    def changeSpeed(self,  speedValue):
+    def changeSpeed(self, speedValue):
         self.changePWMSpeed(speedValue)
 
     def changeAngular(self, angularPos):
