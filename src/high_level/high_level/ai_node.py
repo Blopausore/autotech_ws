@@ -74,6 +74,9 @@ class AI(Node):
 #%%
 
 class AINode(AI):
+    linear_speed = 0
+    angular_speed = 0
+
     def __init__(self, **kargs):
         super().__init__(**kargs)
 
@@ -83,15 +86,25 @@ class AINode(AI):
         self.sub_car = self.create_subscription(
                 Float32MultiArray, "/covaps/toAI", self.callback_pub, 10
         )
-        self.speed = 0
         
         # End initialize
         self.get_logger().info("AI node has been started")
         
 
     def angle_rescale(self, x):
-        return round(linear_transformation(x, model_scale, com_scale), 5)
+        '''Make a linear transformation to put x who was in the scale model_scale to a y in com_scale'''
+        return linear_transformation(x, model_scale, com_scale)
         
+
+    def put_in_scale(self, x):
+        '''Make sure that x is in the model scale'''
+        return max(
+            com_scale[0],
+            min(
+                com_scale[1],
+                x
+            )
+        )
 
     def callback_pub(self, array : Float32MultiArray):
         
@@ -102,20 +115,24 @@ class AINode(AI):
         )
         
         self.get_logger().info(str(array.data[0]))
-        self.speed += (numpy.float32(action[0])*inc_speed*com_scale[1])/max_speed
-        angular_speed = numpy.float32(action[1])
-
-
+        self.linear_speed += self.put_in_scale(
+            self.angle_rescale(numpy.float32(action[0]))
+        )
+ 
+        self.angular_speed = self.put_in_scale(
+            self.angle_rescale(numpy.float32(action[1]))
+            )
+        
         order_angular = create_order(
             "angular",
-            self.angle_rescale(angular_speed)
+            self.angular_speed
         )
 
         self.cmd_car.publish(order_angular)
 
         order_linear = create_order(
             "speed",
-            self.angle_rescale(self.speed)
+            self.linear_speed
         )
         self.cmd_car.publish(order_linear)
         
@@ -127,13 +144,6 @@ class AINode(AI):
 ##
 #%%
 
-
-        
-                
-        
-
-##
-#%%
 
 
         

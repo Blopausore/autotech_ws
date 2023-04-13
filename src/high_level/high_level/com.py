@@ -89,7 +89,7 @@ class ComNode(Node):
 
 
     def sendOrder(self, octet1 : int, octet2 : int): #octet1 and octet2 should not be more that 8 bits
-
+        self.get_logger().info('{} | {}'.format(str(octet1), str(octet2)))
         trame = int.to_bytes( (octet1 << 8 ) | octet2, 2, "big")
         self.arduino.write(trame)
 
