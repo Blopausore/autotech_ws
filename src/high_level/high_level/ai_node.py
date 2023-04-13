@@ -19,11 +19,11 @@ from high_level.personal_tools import linear_transformation
 
 model_scale = [-1, 1]
 com_scale = [-255, 255]
-seuil = 125 #Speed limit
-inc_speed = 0.1 #Maximum of incrementation speed
-max_speed = 5.5
 
+speed_limit = [-50, 125]
+angle_limit = [-200, 200]
 
+derivative_coefficient = 0.01
 ##
 #%%
 
@@ -76,7 +76,7 @@ class AI(Node):
 class AINode(AI):
     linear_speed = 0
     angular_speed = 0
-    speed = 0
+    derivative_speed = 0
 
     def __init__(self, **kargs):
         super().__init__(**kargs)
@@ -92,17 +92,21 @@ class AINode(AI):
         self.get_logger().info("AI node has been started")
         
 
-    def angle_rescale(self, x):
+    def angle_rescale(self, x, coefficient=1):
         '''Make a linear transformation to put x who was in the scale model_scale to a y in com_scale'''
-        return linear_transformation(x, model_scale, com_scale)
+        return linear_transformation(
+            x,
+            model_scale,
+            [com_scale[0]*coefficient, com_scale[1]*coefficient]
+        )
         
 
-    def put_in_scale(self, x):
+    def put_in_scale(self, x, limits):
         '''Make sure that x is in the model scale'''
         return max(
-            com_scale[0],
+            limits[0],
             min(
-                com_scale[1],
+                limits[1],
                 x
             )
         )
@@ -116,23 +120,25 @@ class AINode(AI):
         )
         
         self.linear_speed = self.put_in_scale(
-            self.angle_rescale(numpy.float32(action[0]))
+            self.angle_rescale(numpy.float32(action[0])),
+            speed_limit
         )
  
         self.angular_speed = self.put_in_scale(
-            self.angle_rescale(numpy.float32(action[1]))
-            )
+            self.angle_rescale(numpy.float32(action[1]), derivative_coefficient) + self.angular_speed,
+            angle_limit
+        )
         
         order_angular = create_order(
             "angular",
-            int(self.angular_speed)
+            self.angular_speed
         )
 
         self.cmd_car.publish(order_angular)
 
         order_linear = create_order(
             "speed",
-            int(self.linear_speed)
+            self.linear_speed
         )
         self.cmd_car.publish(order_linear)
         
