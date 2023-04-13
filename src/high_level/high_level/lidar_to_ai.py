@@ -10,7 +10,7 @@ from high_level.personal_tools import linear_transformation
 
 ##
 #%%
-
+maximum_laser_range = 10.
 laser_lidar_scale = [0, 64]
 laser_model_scale = [0, 4]
 
@@ -24,6 +24,12 @@ def convertToAIdata2(scan_list, theta=90, number_points=18):
     opening_index_1 = int((180 + theta) / angle_by_point)
     # Add points and so enlarged the opening angle until we got a suitable number of points
     add_coast = True
+    linear_transformation_laser = lambda x : linear_transformation(
+        min(x, maximum_laser_range),
+        laser_lidar_scale,
+        laser_model_scale
+    )
+
     while not ((opening_index_1 - opening_index_0) % number_points)  == 0 :
         if add_coast :
             opening_index_0 -= 1
@@ -32,7 +38,7 @@ def convertToAIdata2(scan_list, theta=90, number_points=18):
         add_coast = not add_coast
     step = (opening_index_1 - opening_index_0)//number_points
     ai_list = [
-        linear_transformation(laser_scan, laser_lidar_scale, laser_model_scale)
+        linear_transformation_laser(laser_scan)
         for laser_scan in scan_list[opening_index_0 : opening_index_1 : step] if laser_scan < 4
         ]
     return ai_list
@@ -57,7 +63,7 @@ class LidarToAi(Node):
 
     def scan_callback(self, scan_msg):
         msg = Float32MultiArray()   
-        msg.data = convertToAIdata(scan_msg.ranges)
+        msg.data = convertToAIdata2(scan_msg.ranges)
         self.get_logger().info("{} | {}".format(str(len(msg.data)), str(msg.data[8])))
         self.pub.publish(msg)
 
