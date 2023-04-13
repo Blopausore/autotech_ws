@@ -114,7 +114,6 @@ class AINode(AI):
             deterministic=True
         )
         
-        self.get_logger().info(str(array.data[0]))
         self.linear_speed += self.put_in_scale(
             self.angle_rescale(numpy.float32(action[0]))
         )
@@ -137,7 +136,8 @@ class AINode(AI):
         self.cmd_car.publish(order_linear)
         
         self.get_logger().info(
-            "Model predict: {} | {}".format(str(round(action[0],3)), str(round(action[1], 3)))
+            "linear | angular :  {} | {}   scaling : {} | {}".format(
+                str(round(action[0],3)), str(round(action[1], 3)), str(self.linear_speed), str(self.angular_speed))
         )
     
 
