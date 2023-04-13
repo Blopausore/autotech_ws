@@ -11,7 +11,7 @@ from high_level.personal_tools import linear_transformation
 ##
 #%%
 maximum_laser_range = 10.
-laser_lidar_scale = [0, 64]
+laser_lidar_scale = [0, 20]
 laser_model_scale = [0, 4]
 
 ##
