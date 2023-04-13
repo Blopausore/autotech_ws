@@ -90,7 +90,7 @@ class AINode(AI):
         
 
     def angle_rescale(self, x):
-        return linear_transformation(x, model_scale, com_scale)
+        return round(linear_transformation(x, model_scale, com_scale), 5)
         
 
     def callback_pub(self, array : Float32MultiArray):
