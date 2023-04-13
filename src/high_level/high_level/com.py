@@ -29,11 +29,15 @@ class ComNode(Node):
 
 
     def find_path_micro(self):
-        idx = 0
-        while not os.path.exists("/dev/ttyUSB" + str(idx)): idx+=1
-        self.path_micro = "/dev/ttyUSB" + str(idx)
-        self.get_logger().info("USB path found : {}".format(self.path_micro))
+        self.get_logger().info("Try to find USB path")
+        for path in os.listdir("/dev"):
+            if path[:-1] == "/dev/ttyUSB":
+                self.path_micro = path
+                self.get_logger().info("USB path found : {}".format(self.path_micro))
+                return
+        self.get_logger().info("Error : USB path not found")
 
+        
     def rcv_order(self, order: Order):
         if (order.type == "speed"):
             self.changeSpeed(order.val)
@@ -49,7 +53,6 @@ class ComNode(Node):
     def changeAngular(self, angularPos):
         self.changePWMDir(angularPos)
 
-    
     def changePWMSpeed(self, angleValue):
         order_type = 98
         isRight = (angleValue >= 0)
