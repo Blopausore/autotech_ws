@@ -1,1 +1,0 @@
-Invoking command in '/home/smaug/TSP/autotech_ws/build/covaps': CMAKE_PREFIX_PATH=/home/smaug/Documents/ProjetGate-VoitureAutonome/Autotech2022_2023/ros2_ws/install/AutoTech_ros2_pkg:/opt/ros/humble /usr/bin/cmake --build /home/smaug/TSP/autotech_ws/build/covaps -- -j8 -l8

@@ -6,7 +6,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from nav_msgs.msg import OccupancyGrid
-from math import sqrt, atan, pi
 import os
 
 from std_msgs.msg import Float32MultiArray
@@ -18,8 +17,12 @@ from high_level.personal_tools import linear_transformation
 ##
 #%%
 
-speed_model_scale = [-1, 1]
-speed_com_scale = [-255, 255]
+model_scale = [-1, 1]
+com_scale = [-255, 255]
+seuil = 125 #Speed limit
+inc_speed = 0.1 #Maximum of incrementation speed
+max_speed = 5.5
+
 
 ##
 #%%
@@ -80,13 +83,14 @@ class AINode(AI):
         self.sub_car = self.create_subscription(
                 Float32MultiArray, "/covaps/toAI", self.callback_pub, 10
         )
+        self.speed = 0
         
         # End initialize
         self.get_logger().info("AI node has been started")
         
 
     def angle_rescale(self, x):
-        return linear_transformation(x, speed_model_scale, speed_com_scale)
+        return linear_transformation(x, model_scale, com_scale)
         
 
     def callback_pub(self, array : Float32MultiArray):
@@ -98,9 +102,9 @@ class AINode(AI):
         )
         
         self.get_logger().info(str(array.data[0]))
-        Sx, Sy = numpy.float32(action[0]), numpy.float32(action[1])
+        self.speed += (numpy.float32(action[0])*inc_speed*com_scale[1])/max_speed
+        angular_speed = numpy.float32(action[1])
 
-        linear_speed, angular_speed = get_lin_and_ang_speed(Sx, Sy)
 
         order_angular = create_order(
             "angular",
@@ -111,7 +115,7 @@ class AINode(AI):
 
         order_linear = create_order(
             "speed",
-            self.angle_rescale(linear_speed)
+            self.angle_rescale(self.speed)
         )
         self.cmd_car.publish(order_linear)
         
@@ -138,21 +142,6 @@ def create_order(type_, val_):
     order.val = int(val_)
     order.type = type_
     return order
-
-def get_lin_and_ang_speed(Sx, Sy):
-    linear_speed = sqrt(Sx**2 + Sy**2)
-    if Sx ==0:
-        if Sy > 0:
-            angular_speed = pi/2
-        elif Sy < 0:
-            angular_speed = -pi/2
-        else:
-            angular_speed = 0
-    else:
-        angular_speed = atan(Sy/Sx)
-    if Sx < 0:
-        linear_speed = -linear_speed
-    return linear_speed, angular_speed
 
 def wrapperDupauvre(listfloat) :
     returnedList = []
