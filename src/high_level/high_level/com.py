@@ -31,8 +31,8 @@ class ComNode(Node):
     def find_path_micro(self):
         self.get_logger().info("Try to find USB path")
         for path in os.listdir("/dev"):
-            if path[:-1] == "/dev/ttyUSB":
-                self.path_micro = path
+            if path[:-1] == "ttyUSB":
+                self.path_micro = os.path.join("/dev/",path)
                 self.get_logger().info("USB path found : {}".format(self.path_micro))
                 return
         self.get_logger().info("Error : USB path not found")
