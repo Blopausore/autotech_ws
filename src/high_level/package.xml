@@ -14,6 +14,7 @@
   <depend>std_msgs</depend>
   <depend>numpy</depend>
   <depend>math</depend>
+  <depend>os</depend>
   <depend>stable_baselines3</depend>
   <depend>covaps</depend>
 

@@ -2,6 +2,7 @@
 import rclpy
 import serial
 from rclpy.node import Node
+import os
 from covaps.msg import Order
 #import RPi.GPIO as GPIO
 from time import sleep
@@ -15,7 +16,8 @@ class ComNode(Node):
     def __init__(self):
         super().__init__("com_node")
         self.get_logger().info("com node started")
-        self.pathMicro = "/dev/ttyUSB0"
+        
+        self.find_path_micro()
         self.baudrate = 115200
         self.arduino = serial.Serial(self.pathMicro, self.baudrate, timeout= 1)
 
@@ -24,6 +26,11 @@ class ComNode(Node):
         self.stm.baudrate = self.baudrate
 
         self.cmd_recv = self.create_subscription(Order, "/ai/cmd_car", self.rcv_order, 10)
+
+    def find_path_micro(self):
+        index = 0
+        while not os.path.exists("/dev/ttyUSB" + str(index)): index+=1
+        self.pathMicro = "/dev/ttyUSB" + str(index)
 
     def rcv_order(self, order: Order):
         if (order.type == "speed"):
