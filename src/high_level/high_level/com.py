@@ -19,18 +19,19 @@ class ComNode(Node):
         
         self.find_path_micro()
         self.baudrate = 115200
-        self.arduino = serial.Serial(self.pathMicro, self.baudrate, timeout= 1)
+        self.arduino = serial.Serial(self.path_micro, self.baudrate, timeout= 1)
 
         self.stm = serial.Serial()
-        self.stm.port = self.pathMicro
+        self.stm.port = self.path_micro
         self.stm.baudrate = self.baudrate
 
         self.cmd_recv = self.create_subscription(Order, "/ai/cmd_car", self.rcv_order, 10)
 
+
     def find_path_micro(self):
-        index = 0
-        while not os.path.exists("/dev/ttyUSB" + str(index)): index+=1
-        self.pathMicro = "/dev/ttyUSB" + str(index)
+        idx = 0
+        while not os.path.exists("/dev/ttyUSB" + str(idx)): idx+=1
+        self.path_micro = "/dev/ttyUSB" + str(idx)
 
     def rcv_order(self, order: Order):
         if (order.type == "speed"):
