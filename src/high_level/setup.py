@@ -20,10 +20,10 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "teleop_node = monthlery.teleop:main",
-            "com_node = monthlery.com:main",
-            "lidar_to_ai = monthlery.lidar_to_ai:main",
-            "ai_node = autotech_ros2_pkg.ai_node:main"
+            "teleop_node = high_level.teleop:main",
+            "com_node = high_level.com:main",
+            "lidar_to_ai = high_level.lidar_to_ai:main",
+            "ai_node = high_level.ai_node:main"
         ],
     },
 )
