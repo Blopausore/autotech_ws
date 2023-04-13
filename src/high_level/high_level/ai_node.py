@@ -76,6 +76,7 @@ class AI(Node):
 class AINode(AI):
     linear_speed = 0
     angular_speed = 0
+    speed = 0
 
     def __init__(self, **kargs):
         super().__init__(**kargs)
@@ -114,7 +115,7 @@ class AINode(AI):
             deterministic=True
         )
         
-        self.linear_speed += self.put_in_scale(
+        self.linear_speed = self.put_in_scale(
             self.angle_rescale(numpy.float32(action[0]))
         )
  
@@ -124,14 +125,14 @@ class AINode(AI):
         
         order_angular = create_order(
             "angular",
-            self.angular_speed
+            int(self.angular_speed)
         )
 
         self.cmd_car.publish(order_angular)
 
         order_linear = create_order(
             "speed",
-            self.linear_speed
+            int(self.linear_speed)
         )
         self.cmd_car.publish(order_linear)
         
