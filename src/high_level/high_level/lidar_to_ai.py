@@ -39,7 +39,7 @@ def convertToAIdata2(scan_list, theta=90, number_points=18):
     step = (opening_index_1 - opening_index_0)//number_points
     ai_list = [
         linear_transformation_laser(laser_scan)
-        for laser_scan in scan_list[opening_index_0 : opening_index_1 : step] if laser_scan < 4
+        for laser_scan in scan_list[opening_index_0 : opening_index_1 : step]
         ]
     return ai_list
 
