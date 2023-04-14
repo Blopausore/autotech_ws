@@ -41,11 +41,13 @@ sudo systemctl start ssh
 
 Arreter le server, on ferme tout d'abord les connections existantes
 '''
-killall ssh 
+killall sshd
 sudo systemctl stop ssh
 '''
 
 ### Client
+Pour trouver l'ip de la Jetson : ifconfig | grep inet 
+Puis prendre celle qui semble vraisemblable ou bien ifconfig : donnera l'ensemble est regarder dans le paragraph wlps.
 Pour se connecter : 
 '''
 ssh master@[ipv4]
@@ -53,6 +55,35 @@ ssh master@[ipv4]
 Puis donner le mot de passe.
 
 ## Arduino et fonctionnement de la commande vitesse et angle
+
+Lancer teleop_node et com_node pour pouvoir tester la voiture.
+Il faudra checker si la voiture suis bien les commandes demandés et essayer de noter les valeurs de la voiture qui sont intérressantes.
+
+### Pin arduino employé
+Ne pas hésiter à vérifier le bon branchement des pins
+* PIN D09 : commande vitesse lineaire
+* PIN D10 : commande vitesse angulaire
+
+* PIN D2 | GND : GND (masse)
+* PIN D3 | 5V  : 5V
+
+### Check-up matériel
+
+#### Batterie 
+A tester avec l'ecran à 5 (peut etre plus) broches qui se trouve dans l'atelier.
+Il suffit de brancher ces 5 branches a la batterie (pas l'alimentation general mais les cables collé)
+
+Courant ok : < 12V
+
+#### Moteur controlleur
+Il possède un switch on/off (C'est bien de le rappeler).
+Un bip = signal recu pas compris
+
+#### Arduino 
+Bouton reset dessus : a tout moment il suffisait d'appuyer
+
+
+
 
 
 
