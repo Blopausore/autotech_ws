@@ -30,5 +30,30 @@ ros2 run urg_node urg_node_driver --ros-args --params-file ./install/urg_node/sh
 
 ### Step 3 : Vérifier que les bonnes échelles sont employées
 
+## SSH
+### Server
+Openssh-server a déjà était installé.
+Lancer le server :
+'''
+sudo systemctl enable ssh
+sudo systemctl start ssh
+'''
+
+Arreter le server, on ferme tout d'abord les connections existantes
+'''
+killall ssh 
+sudo systemctl stop ssh
+'''
+
+### Client
+Pour se connecter : 
+'''
+ssh master@[ipv4]
+'''
+Puis donner le mot de passe.
+
+## Arduino et fonctionnement de la commande vitesse et angle
+
+
 
 
