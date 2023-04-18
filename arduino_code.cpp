@@ -72,7 +72,7 @@ void initArdui() {
   digitalWrite(2, LOW);
   digitalWrite(3, HIGH);
   
-  angle.attach(PINangle,1000,2000);
+  angle.attach(PINangle);
   esc.attach(PINspeed,0,2000);
   initMotorServo();
   
