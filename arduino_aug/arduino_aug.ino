@@ -5,7 +5,7 @@
 #define changeMoovOrder 99
 #define changeRotaOrder 100
 
-#define PINangle  10
+#define PINangle  11
 #define PINspeed  9
 
 
@@ -13,10 +13,11 @@ uint8_t order = 0;
 uint8_t arg = 0;
 
 
-const int angleZero = 45;
-const int angleScale = 45;
+const int angleZero = 0;
+const int angleScale = 90;
 
-const int speedScale = 5;
+const int speedZero = 100;
+const int speedScale = 50;
 
 
 int dirSpeed = 1; // 1: forward | -1 : backward
@@ -28,7 +29,10 @@ Servo esc;
 void changeSpeed() {
   float nextVal = (dirSpeed*arg*speedScale/255);
   int newVAl = (int) nextVal;
-  esc.write(100 + newVAl); //shame on my code
+  Serial.println(arg);
+  Serial.println(newVAl);
+  Serial.println(100 + newVAl);
+  esc.write(speedZero + newVAl); //shame on my code
 }
 
 void changeRot() {
@@ -61,6 +65,7 @@ void initArdui() {
   
   angle.attach(PINangle, 0, 2000);
   esc.attach(PINspeed, 0, 2000);
+  delay(1000);
   initMotorServo();
   
   Serial.println("init done");
@@ -100,7 +105,6 @@ void orderManager(){
     dirAngle = -1 + 2 * arg;
   }
 }
-
 
 //------------------------------------------
 void setup() {
