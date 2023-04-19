@@ -38,14 +38,14 @@ class TeleopNode(Node):
         res = True
         key = getkey()
         if (key == keys.UP):
-            self.get_logger().info("speed up")
+            self.get_logger().info("speed up : {}".format(self.linearSpeed + SPEED_STEP))
             self.linearSpeed += SPEED_STEP
             while (self.linearSpeed >= HIGH_LIMIT_SPEED) :
                 self.get_logger().info("reached limit")
                 self.linearSpeed -= SPEED_STEP
             self.sendOrder(self.linearSpeed, "speed")
         elif (key == keys.DOWN):
-            self.get_logger().info("slow down")
+            self.get_logger().info("slow down : {}".format(self.linearSpeed - SPEED_STEP))
             self.linearSpeed -= SPEED_STEP
             while (self.linearSpeed <= LOW_LIMIT_SPEED) :
                 self.get_logger().info("reached limit")
@@ -53,17 +53,17 @@ class TeleopNode(Node):
 
             self.sendOrder(self.linearSpeed, "speed")
         elif (key == keys.LEFT):
-            self.get_logger().info("turn left")
+            self.get_logger().info("turn left : {}".format(self.angularPos + ANGLE_STEP))
             self.angularPos += ANGLE_STEP
-            while not (self.angularPos < HIGH_LIMIT_ANG) :
+            while self.angularPos >= HIGH_LIMIT_ANG :
                 self.get_logger().info("reached limit")
                 self.angularPos -= ANGLE_STEP
             self.sendOrder(self.angularPos,"angular")
 
         elif (key == keys.RIGHT):
-            self.get_logger().info("turn right")
+            self.get_logger().info("turn right : {}".format(self.angularPos - ANGLE_STEP))
             self.angularPos -= ANGLE_STEP
-            while not (self.angularPos > LOW_LIMIT_ANG) :
+            while self.angularPos <= LOW_LIMIT_ANG :
                 self.get_logger().info("reached limit")
                 self.angularPos += ANGLE_STEP
             self.sendOrder(self.angularPos, "angular")
@@ -71,12 +71,14 @@ class TeleopNode(Node):
         elif (key == 'I'):
             self.get_logger().info("linear speed:" + str(self.linearSpeed))
             self.get_logger().info("angular position:" + str(self.angularPos))
+
         elif (key == 'S'):
             self.get_logger().info("car stopped")
             self.linearSpeed = 0
             self.angularPos = 0
             self.sendOrder(self.linearSpeed, "speed")
             self.sendOrder(self.angularPos, "angular")
+
         elif (key == 'Q'):
             self.get_logger().info("quit teleop")
             self.linearSpeed = 0

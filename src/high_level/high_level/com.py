@@ -7,7 +7,7 @@ from covaps.msg import Order
 #import RPi.GPIO as GPIO
 from time import sleep
 
-SPEED_LIMIT = 500
+SPEED_LIMIT = 254
 ANGLE_LIMIT = 254
 
 
@@ -18,7 +18,7 @@ class ComNode(Node):
 
         # Recommend verbose : 2 for teleop | 1 for ai
         self.verbose = 1
-        self.get_logger().info("com node started")
+        self.get_logger().info("com node started v : 1.0")
         
         self.find_path_micro()
         self.baudrate = 115200
@@ -56,29 +56,40 @@ class ComNode(Node):
     def changeAngular(self, angleValue):
         self.changePWMDir(angleValue)
 
+    '''changePWM
+    Order :
+        97 : angle value chanel
+            -> send value [0, ANGLE_LIMIT] #currently ANGLE_LIMIT = 254
+        98 : speed value chanel
+            -> send value [0, SPEED_LIMIT] #currently SPEED_LIMIT = 254
+
+        99 : speed direction
+            -> send 1 for backward and 0 for forward
+        
+        100 : angle direction
+            -> send 1 for right and 0 for left
+    '''
+
     def changePWMSpeed(self, speedValue):
         order_type = 98
-        isRight = (speedValue >= 0)
-        self.defineRightOrLeft(isRight)
-        arg = abs(speedValue)
+        isFor = (speedValue >= 0)
+        self.defineForOrBack(isFor)
+        arg = min(abs(speedValue), SPEED_LIMIT)
         self.sendOrder(order_type, arg)
+
         if self.verbose == 1:
                 self.get_logger().info("{} : {}".format("Linear speed", str(speedValue)))
-        if self.verbose == 2:
-            self.get_logger().info("change speed " + str(arg))
-            self.get_logger().info("is For: "+ str(isRight))
+
         
     def changePWMDir(self, angleValue):
         order_type = 97
-        isFor = (angleValue >= 0)
-        self.defineForOrBack(isFor)
+        isRight = (angleValue < 0)
+        self.defineRightOrLeft(isRight)
         arg = min(abs(angleValue), ANGLE_LIMIT)
         self.sendOrder(order_type, arg)
+
         if self.verbose == 1:
             self.get_logger().info("{}{} : {}".format("\t", "Angular speed", str(angleValue)))
-        if self.verbose == 2:
-            self.get_logger().info("change rot "+ str(arg))
-            self.get_logger().info("is For: "+ str(isFor))
 
 
     def defineForOrBack(self, isFor) :
