@@ -23,9 +23,9 @@ Servo angle;
 Servo esc;
 
 void changeSpeed() {
-  float nextVal = (isForward*10*arg/255);
+  float nextVal = (isForward*6*arg/255);
   int newVAl = (int) nextVal;
-  esc.write(100 + newVAl); //shame on my code
+  esc.write(104 + newVAl); //shame on my code
 }
 
 void changeRot() {
@@ -53,11 +53,12 @@ void changeRota() {
 }
 
 void initMotorServo() {
-  //esc.write(180);
-  //delay(1000); //wait for the motor 
-  //esc.write(0);
-  //delay(1000);
-  esc.write(93);
+  angle.write(100);
+  esc.write(180);
+  delay(1000); //wait for the motor 
+  esc.write(0);
+  delay(1000);
+  esc.write(108);
   angle.write(90);
 }
 
@@ -71,7 +72,7 @@ void initArdui() {
   digitalWrite(2, LOW); // GND
   digitalWrite(3, HIGH); // 5V
   
-  angle.attach(PINangle,1000,2000);
+  angle.attach(PINangle);
   esc.attach(PINspeed,0,2000);
   initMotorServo();
   
@@ -121,5 +122,5 @@ void loop() {
     orderActualise(&order, &arg);
     orderManager();
   }
-  
+
 }
