@@ -39,36 +39,35 @@ class TeleopNode(Node):
         key = getkey()
         if (key == keys.UP):
             self.get_logger().info("speed up")
-            if (self.linearSpeed < HIGH_LIMIT_SPEED) :
-                self.linearSpeed += SPEED_STEP
-            else :
+            self.linearSpeed += SPEED_STEP
+            while (self.linearSpeed >= HIGH_LIMIT_SPEED) :
                 self.get_logger().info("reached limit")
                 self.linearSpeed -= SPEED_STEP
             self.sendOrder(self.linearSpeed, "speed")
         elif (key == keys.DOWN):
             self.get_logger().info("slow down")
-            if (self.linearSpeed > LOW_LIMIT_SPEED) :
-                self.linearSpeed -= SPEED_STEP
-            else :
+            self.linearSpeed -= SPEED_STEP
+            while (self.linearSpeed <= LOW_LIMIT_SPEED) :
                 self.get_logger().info("reached limit")
                 self.linearSpeed += SPEED_STEP
+
             self.sendOrder(self.linearSpeed, "speed")
         elif (key == keys.LEFT):
             self.get_logger().info("turn left")
-            if (self.angularPos < HIGH_LIMIT_ANG) :
-                self.angularPos += ANGLE_STEP
-            else :
+            self.angularPos += ANGLE_STEP
+            while not (self.angularPos < HIGH_LIMIT_ANG) :
                 self.get_logger().info("reached limit")
                 self.angularPos -= ANGLE_STEP
             self.sendOrder(self.angularPos,"angular")
+
         elif (key == keys.RIGHT):
             self.get_logger().info("turn right")
-            if (self.angularPos < HIGH_LIMIT_ANG) :
-                self.angularPos -= ANGLE_STEP
-            else :
+            self.angularPos -= ANGLE_STEP
+            while not (self.angularPos > LOW_LIMIT_ANG) :
                 self.get_logger().info("reached limit")
                 self.angularPos += ANGLE_STEP
             self.sendOrder(self.angularPos, "angular")
+            
         elif (key == 'I'):
             self.get_logger().info("linear speed:" + str(self.linearSpeed))
             self.get_logger().info("angular position:" + str(self.angularPos))
