@@ -23,15 +23,19 @@ Servo angle;
 Servo esc;
 
 void changeSpeed() {
-  float nextVal = (isForward*10*arg/255);
+  float nextVal = (isForward*6*arg/255);
   int newVAl = (int) nextVal;
-  esc.write(100 + newVAl); //shame on my code
+  esc.write(104 + newVAl); //shame on my code
 }
 
-void changeRot() {
-  float nextVal = (isForward*90*arg/255);
+int changeRot() {
+  float nextVal = (90*arg/255);
   int newVAl = (int) nextVal;
-  angle.write(90 + newVAl);//shame on my code
+  Serial.println(newVAl);
+  Serial.println(nextVal);
+  Serial.println(arg);
+  
+  return (90 + newVAl);//shame on my code
 }
 
 void changeMoov() {
@@ -53,25 +57,26 @@ void changeRota() {
 }
 
 void initMotorServo() {
-  //esc.write(180);
-  //delay(1000); //wait for the motor 
-  //esc.write(0);
-  //delay(1000);
-  esc.write(93);
-  angle.write(90);
+  angle.write(100);
+  esc.write(180);
+  delay(1000); //wait for the motor 
+  esc.write(0);
+  delay(1000);
+  esc.write(108);
+  angle.write(180);
 }
 
-void initArdui() {
+void initArduino() {
   Serial.begin(115200);
   pinMode(PINangle, OUTPUT);
   pinMode(PINspeed, OUTPUT);
 
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
-  digitalWrite(2, LOW); // GND
-  digitalWrite(3, HIGH); // 5V
+  digitalWrite(2, LOW);
+  digitalWrite(3, HIGH);
   
-  angle.attach(PINangle,1000,2000);
+  angle.attach(PINangle, 0, 2000);
   esc.attach(PINspeed,0,2000);
   initMotorServo();
   
@@ -95,12 +100,14 @@ void orderActualise(uint8_t* order, uint8_t* arg) {
 void orderManager(){
   // just a case 
   if (order == AngleOrder) {
-    changePWMAngle();
     Serial.println("angle");
+    changePWMAngle();
+    
   }
   else if (order == SpeedOrder) {
-    changePWMSpeed();
     Serial.println("speed");
+    changePWMSpeed();
+    
   }
   else if (order == changeMoovOrder) {
     changeMoov();
@@ -113,13 +120,13 @@ void orderManager(){
 
 //------------------------------------------
 void setup() {
- initArdui();
+  initArduino();
 }
 
 void loop() {
   if (Serial.available() >= 2) {
     orderActualise(&order, &arg);
-    orderManager();
+    angle.write(changeRot());
   }
-  
+  delay(10);
 }

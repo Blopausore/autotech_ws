@@ -9,6 +9,9 @@ LOW_LIMIT_SPEED = -255
 HIGH_LIMIT_ANG = 255
 LOW_LIMIT_ANG = -255
 
+SPEED_STEP = 10
+ANGLE_STEP = 10
+
 class TeleopNode(Node):
 
     def __init__(self):
@@ -37,30 +40,34 @@ class TeleopNode(Node):
         if (key == keys.UP):
             self.get_logger().info("speed up")
             if (self.linearSpeed < HIGH_LIMIT_SPEED) :
-                self.linearSpeed += 1
+                self.linearSpeed += SPEED_STEP
             else :
                 self.get_logger().info("reached limit")
+                self.linearSpeed -= SPEED_STEP
             self.sendOrder(self.linearSpeed, "speed")
         elif (key == keys.DOWN):
             self.get_logger().info("slow down")
             if (self.linearSpeed > LOW_LIMIT_SPEED) :
-                self.linearSpeed -= 1
+                self.linearSpeed -= SPEED_STEP
             else :
                 self.get_logger().info("reached limit")
+                self.linearSpeed += SPEED_STEP
             self.sendOrder(self.linearSpeed, "speed")
         elif (key == keys.LEFT):
             self.get_logger().info("turn left")
             if (self.angularPos < HIGH_LIMIT_ANG) :
-                self.angularPos +=1
+                self.angularPos += ANGLE_STEP
             else :
                 self.get_logger().info("reached limit")
+                self.angularPos -= ANGLE_STEP
             self.sendOrder(self.angularPos,"angular")
         elif (key == keys.RIGHT):
             self.get_logger().info("turn right")
             if (self.angularPos < HIGH_LIMIT_ANG) :
-                self.angularPos -= 1
+                self.angularPos -= ANGLE_STEP
             else :
                 self.get_logger().info("reached limit")
+                self.angularPos += ANGLE_STEP
             self.sendOrder(self.angularPos, "angular")
         elif (key == 'I'):
             self.get_logger().info("linear speed:" + str(self.linearSpeed))

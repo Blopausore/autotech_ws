@@ -85,7 +85,7 @@ class AINode(AI):
         self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
         # Subscriber
         self.sub_car = self.create_subscription(
-                Float32MultiArray, "/covaps/toAI", self.callback_pub, 10
+                Float32MultiArray, "/to_ai", self.callback_pub, 10
         )
         
         # End initialize

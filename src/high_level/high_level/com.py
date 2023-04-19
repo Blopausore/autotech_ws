@@ -8,7 +8,7 @@ from covaps.msg import Order
 from time import sleep
 
 SPEED_LIMIT = 500
-
+ANGLE_LIMIT = 254
 
 
 
@@ -63,7 +63,7 @@ class ComNode(Node):
         arg = abs(speedValue)
         self.sendOrder(order_type, arg)
         if self.verbose == 1:
-                self.get_logger().info(str(speedValue))
+                self.get_logger().info("{} : {}".format("Linear speed", str(speedValue)))
         if self.verbose == 2:
             self.get_logger().info("change speed " + str(arg))
             self.get_logger().info("is For: "+ str(isRight))
@@ -72,10 +72,10 @@ class ComNode(Node):
         order_type = 97
         isFor = (angleValue >= 0)
         self.defineForOrBack(isFor)
-        arg = abs(angleValue)
+        arg = min(abs(angleValue), ANGLE_LIMIT)
         self.sendOrder(order_type, arg)
         if self.verbose == 1:
-            self.get_logger().info("\t" + str(angleValue))
+            self.get_logger().info("{}{} : {}".format("\t", "Angular speed", str(angleValue)))
         if self.verbose == 2:
             self.get_logger().info("change rot "+ str(arg))
             self.get_logger().info("is For: "+ str(isFor))

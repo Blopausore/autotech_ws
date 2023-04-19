@@ -59,7 +59,7 @@ class LidarToAi(Node):
     def __init__(self):
         super().__init__('laser_to_ai')
         self.sub = self.create_subscription(LaserScan, '/scan', self.scan_callback, 10)
-        self.pub = self.create_publisher(Float32MultiArray,'/covaps/toAI', 10)
+        self.pub = self.create_publisher(Float32MultiArray,'/to_ai', 10)
 
     def scan_callback(self, scan_msg):
         msg = Float32MultiArray()   
