@@ -72,7 +72,7 @@ class ComNode(Node):
 
     def changePWMSpeed(self, speedValue):
         order_type = 98
-        isFor = (speedValue >= 0)
+        isFor = (speedValue < 0)
         self.defineForOrBack(isFor)
         arg = min(abs(speedValue), SPEED_LIMIT)
         self.sendOrder(order_type, arg)
