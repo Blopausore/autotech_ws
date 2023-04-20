@@ -84,7 +84,7 @@ class ComNode(Node):
     def changePWMDir(self, angleValue):
         order_type = 97
         isRight = (angleValue < 0)
-        self.defineRightOrLeft(isRight)
+        #self.defineRightOrLeft(isRight)
         arg = min(abs(angleValue), ANGLE_LIMIT)
         self.sendOrder(order_type, arg)
 

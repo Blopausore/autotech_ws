@@ -23,7 +23,7 @@ Servo angle;
 Servo esc;
 
 void writeSpeed() {
-  float nextVal = (dirSpeed*arg);
+  float nextVal = arg;
   int newVal = (int) nextVal;
   Serial.println(arg);
   Serial.println(dirSpeed);
@@ -31,7 +31,7 @@ void writeSpeed() {
 }
 
 void writeRot() {
-  float nextVal = (dirAngle*arg + 90.);
+  float nextVal = (arg + 90.);
   int newVal = (int) nextVal;
   Serial.println(arg);
   Serial.println(dirAngle);
@@ -75,10 +75,9 @@ void orderManager(){
   }
   else if (order == SpeedOrder) {
     Serial.println("speed");
-    writeSpeed();
-    
+    writeSpeed(); 
   }
-  
+
   // arg == 0 => dir = -1 | arg == 1 => dir = 1
   else if (order == changeMoovOrder){
     dirSpeed = -1 + 2 * arg;  
