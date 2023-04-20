@@ -7,7 +7,7 @@ from covaps.msg import Order
 #import RPi.GPIO as GPIO
 from time import sleep
 
-SPEED_LIMIT = 128
+SPEED_LIMIT = 255
 ANGLE_LIMIT = 90
 
 class ComNode(Node):

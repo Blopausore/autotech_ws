@@ -19,7 +19,7 @@ Servo esc;
 void writeSpeed() {
   int newVal = (int) arg;
   Serial.println(newVal);
-  esc.write(newVal); 
+  esc.write(newVal - 128); 
 }
 
 void writeRot() {
