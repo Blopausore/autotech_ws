@@ -12,9 +12,12 @@
 uint8_t order = 0;
 uint8_t arg = 0;
 
-
 int dirSpeed = 1; // -1: forward | 1 : backward
 int dirAngle = 1; // 1: to right| -1 : to left
+
+
+// For speed arg : [-255, 255] 
+// For angle arg : [-90, 90]
 
 Servo angle;
 Servo esc;
@@ -28,7 +31,7 @@ void writeSpeed() {
 }
 
 void writeRot() {
-  float nextVal = (dirAngle*arg);
+  float nextVal = (dirAngle*arg + 90.);
   int newVal = (int) nextVal;
   Serial.println(arg);
   Serial.println(dirAngle);
@@ -73,6 +76,7 @@ void orderManager(){
   else if (order == SpeedOrder) {
     Serial.println("speed");
     writeSpeed();
+    
   }
   
   // arg == 0 => dir = -1 | arg == 1 => dir = 1

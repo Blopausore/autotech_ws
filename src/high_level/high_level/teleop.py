@@ -7,7 +7,7 @@ from covaps.msg import Order
 HIGH_LIMIT_SPEED = 255
 LOW_LIMIT_SPEED = -255
 HIGH_LIMIT_ANG = 90
-LOW_LIMIT_ANG = -90
+LOW_LIMIT_ANG = 0
 
 SPEED_STEP = 1
 ANGLE_STEP = 5
@@ -43,6 +43,8 @@ class TeleopNode(Node):
     def readKey(self):
         res = True
         key = getkey()
+
+        #Speed control
         if (key == keys.UP):
             self.get_logger().info("speed up : {}".format(self.linearSpeed + SPEED_STEP))
             self.linearSpeed += SPEED_STEP
@@ -56,8 +58,9 @@ class TeleopNode(Node):
             while (self.linearSpeed <= LOW_LIMIT_SPEED) :
                 self.get_logger().info("reached limit")
                 self.linearSpeed += SPEED_STEP
-
             self.sendOrder(self.linearSpeed, "speed")
+
+        #Angle control
         elif (key == keys.LEFT):
             self.get_logger().info("turn left : {}".format(self.angularPos + ANGLE_STEP))
             self.angularPos += ANGLE_STEP
@@ -65,7 +68,6 @@ class TeleopNode(Node):
                 self.get_logger().info("reached limit")
                 self.angularPos -= ANGLE_STEP
             self.sendOrder(self.angularPos,"angular")
-
         elif (key == keys.RIGHT):
             self.get_logger().info("turn right : {}".format(self.angularPos - ANGLE_STEP))
             self.angularPos -= ANGLE_STEP
