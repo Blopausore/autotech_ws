@@ -31,7 +31,7 @@ class TeleopNode(Node):
         self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
 
     def initial_state(self):
-        self.linearSpeed = 100
+        self.linearSpeed = 228
         self.angularPos = 45
         
 
