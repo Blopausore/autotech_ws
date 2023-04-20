@@ -4,6 +4,7 @@ from rclpy.node import Node
 from getkey import getkey, keys
 from covaps.msg import Order
 
+
 HIGH_LIMIT_SPEED = 255
 LOW_LIMIT_SPEED = -255
 HIGH_LIMIT_ANG = 90
@@ -14,7 +15,7 @@ ANGLE_STEP = 5
 
 class TeleopNode(Node):
     linearSpeed = 0
-    angularPos = 0
+    angularPos = 90
 
     def __init__(self):
         super().__init__("Teleoperator_node")
@@ -31,7 +32,7 @@ class TeleopNode(Node):
 
     def initial_state(self):
         self.linearSpeed = 0
-        self.angularPos = 0
+        self.angularPos = 45
         
 
     def sendOrder(self, value, type):
@@ -61,14 +62,14 @@ class TeleopNode(Node):
             self.sendOrder(self.linearSpeed, "speed")
 
         #Angle control
-        elif (key == keys.LEFT):
+        elif (key == keys.RIGHT):
             self.get_logger().info("turn left : {}".format(self.angularPos + ANGLE_STEP))
             self.angularPos += ANGLE_STEP
             while self.angularPos >= HIGH_LIMIT_ANG :
                 self.get_logger().info("reached limit")
                 self.angularPos -= ANGLE_STEP
             self.sendOrder(self.angularPos,"angular")
-        elif (key == keys.RIGHT):
+        elif (key == keys.LEFT):
             self.get_logger().info("turn right : {}".format(self.angularPos - ANGLE_STEP))
             self.angularPos -= ANGLE_STEP
             while self.angularPos <= LOW_LIMIT_ANG :

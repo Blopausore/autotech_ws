@@ -10,8 +10,6 @@ from time import sleep
 SPEED_LIMIT = 128
 ANGLE_LIMIT = 90
 
-
-
 class ComNode(Node):
     def __init__(self):
         super().__init__("com_node")
@@ -72,8 +70,6 @@ class ComNode(Node):
 
     def changePWMSpeed(self, speedValue):
         order_type = 98
-        isFor = (speedValue < 0)
-        self.defineForOrBack(isFor)
         arg = min(abs(speedValue), SPEED_LIMIT)
         self.sendOrder(order_type, arg)
 
@@ -83,26 +79,12 @@ class ComNode(Node):
         
     def changePWMDir(self, angleValue):
         order_type = 97
-        isRight = (angleValue < 0)
-        #self.defineRightOrLeft(isRight)
         arg = min(abs(angleValue), ANGLE_LIMIT)
         self.sendOrder(order_type, arg)
 
         if self.verbose == 1:
             self.get_logger().info("{}{} : {}".format("\t", "Angular speed", str(angleValue)))
 
-
-    def defineForOrBack(self, isFor) :
-        if (isFor) :
-            self.sendOrder(99, 1)
-        else :
-            self.sendOrder(99, 0)
-
-    def defineRightOrLeft(self, isRight) :
-        if (isRight) :
-            self.sendOrder(100, 1)
-        else :
-            self.sendOrder(100, 0)
 
     def sendOrder(self, octet1 : int, octet2 : int): #octet1 and octet2 should not be more that 8 bits
         trame = int.to_bytes( (octet1 << 8 ) | octet2, 2, "big")

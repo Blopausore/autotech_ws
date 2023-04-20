@@ -6,43 +6,33 @@
 #define changeRotaOrder 100
 
 #define PINangle  11
-#define PINspeed  9
+#define PINspeed  10
 
 
 uint8_t order = 0;
 uint8_t arg = 0;
 
-int dirSpeed = 1; // -1: forward | 1 : backward
-int dirAngle = 1; // 1: to right| -1 : to left
-
-
-// For speed arg : [-255, 255] 
-// For angle arg : [-90, 90]
 
 Servo angle;
 Servo esc;
 
 void writeSpeed() {
-  float nextVal = arg;
-  int newVal = (int) nextVal;
-  Serial.println(arg);
-  Serial.println(dirSpeed);
+  int newVal = (int) arg;
+  Serial.println(newVal);
   esc.write(newVal); 
 }
 
 void writeRot() {
-  float nextVal = (arg + 90.);
-  int newVal = (int) nextVal;
-  Serial.println(arg);
-  Serial.println(dirAngle);
+  int newVal = (int) arg;
+  Serial.println(newVal);
   angle.write(newVal);
 }
 
 void initMotorServo() {
   esc.write(180);
-  delay(1000); //wait for the motor 
+  delay(100); //wait for the motor 
   esc.write(0);
-  delay(1000);
+  delay(100);
 }
 
 void initArdui() {
@@ -55,6 +45,11 @@ void initArdui() {
   
   angle.attach(PINangle, 0, 2000);
   esc.attach(PINspeed, 0, 2000);
+
+  angle.write(0);
+  delay(1000);
+  angle.write(180);
+ 
   delay(1000);
   initMotorServo();
   
@@ -77,14 +72,14 @@ void orderManager(){
     Serial.println("speed");
     writeSpeed(); 
   }
-
+/*
   // arg == 0 => dir = -1 | arg == 1 => dir = 1
   else if (order == changeMoovOrder){
     dirSpeed = -1 + 2 * arg;  
   }
   else if (order == changeRotaOrder) {
     dirAngle = -1 + 2 * arg;
-  }
+  }*/
 }
 
 //------------------------------------------
