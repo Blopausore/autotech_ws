@@ -13,44 +13,33 @@ uint8_t order = 0;
 uint8_t arg = 0;
 
 
-const int angleZero = 0;
-const int angleScale = 90;
-
-const int speedZero = 100;
-const int speedScale = 50;
-
-
-int dirSpeed = 1; // 1: forward | -1 : backward
+int dirSpeed = 1; // -1: forward | 1 : backward
 int dirAngle = 1; // 1: to right| -1 : to left
 
 Servo angle;
 Servo esc;
 
-void changeSpeed() {
-  float nextVal = (dirSpeed*arg*speedScale/255);
-  int newVAl = (int) nextVal;
+void writeSpeed() {
+  float nextVal = (dirSpeed*arg);
+  int newVal = (int) nextVal;
   Serial.println(arg);
-  Serial.println(newVAl);
-  Serial.println(100 + newVAl);
-  esc.write(speedZero + newVAl); //shame on my code
+  Serial.println(dirSpeed);
+  esc.write(newVal); 
 }
 
-void changeRot() {
-  float nextVal = (dirAngle*arg*angleScale/255);
-  // nextVal : [-angleScale, angleScale]
-  Serial.println(nextVal);
-  int newVAl = (int) nextVal;
-  // write : [angleZero - angleScale, angleZero + angleScale]
-  angle.write(angleZero + newVAl);//shame on my code
+void writeRot() {
+  float nextVal = (dirAngle*arg);
+  int newVal = (int) nextVal;
+  Serial.println(arg);
+  Serial.println(dirAngle);
+  angle.write(newVal);
 }
 
 void initMotorServo() {
-  //esc.write(180);
-  //delay(1000); //wait for the motor 
-  //esc.write(0);
-  //delay(1000);
-  esc.write(93);
-  angle.write(90);
+  esc.write(180);
+  delay(1000); //wait for the motor 
+  esc.write(0);
+  delay(1000);
 }
 
 void initArdui() {
@@ -58,9 +47,7 @@ void initArdui() {
   pinMode(PINangle, OUTPUT);
   pinMode(PINspeed, OUTPUT);
 
-  pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
-  digitalWrite(2, LOW); // GND
   digitalWrite(3, HIGH); // 5V
   
   angle.attach(PINangle, 0, 2000);
@@ -69,16 +56,8 @@ void initArdui() {
   initMotorServo();
   
   Serial.println("init done");
-
 }
 
-void changePWMAngle(){
-  changeRot();
-}
-
-void changePWMSpeed() {
-  changeSpeed();
-}
 
 void orderActualise(uint8_t* order, uint8_t* arg) {
   (* order) = Serial.read();
@@ -88,13 +67,12 @@ void orderActualise(uint8_t* order, uint8_t* arg) {
 void orderManager(){
   // just a case 
   if (order == AngleOrder) {
-    changePWMAngle();
     Serial.println("angle");
-    Serial.println(arg);
+    writeRot();
   }
   else if (order == SpeedOrder) {
-    changePWMSpeed();
     Serial.println("speed");
+    writeSpeed();
   }
   
   // arg == 0 => dir = -1 | arg == 1 => dir = 1

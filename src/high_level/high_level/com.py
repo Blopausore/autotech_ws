@@ -8,7 +8,7 @@ from covaps.msg import Order
 from time import sleep
 
 SPEED_LIMIT = 254
-ANGLE_LIMIT = 254
+ANGLE_LIMIT = 90
 
 
 
