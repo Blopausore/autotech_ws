@@ -30,9 +30,8 @@ void writeRot() {
 
 void initMotorServo() {
   esc.write(180);
-  delay(100); //wait for the motor 
   esc.write(0);
-  delay(100);
+  delay(4000);
 }
 
 void initArdui() {
@@ -46,11 +45,8 @@ void initArdui() {
   angle.attach(PINangle, 0, 2000);
   esc.attach(PINspeed, 0, 2000);
 
-  angle.write(0);
-  delay(1000);
-  angle.write(180);
- 
-  delay(1000);
+  angle.write(45);
+
   initMotorServo();
   
   Serial.println("init done");

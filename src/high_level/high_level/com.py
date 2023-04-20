@@ -33,7 +33,7 @@ class ComNode(Node):
         self.get_logger().info("Try to find USB path")
         for path in os.listdir("/dev"):
             if path[:-1] == "ttyUSB":
-                self.path_micro = os.path.join("/dev/",path)
+                self.path_micro = os.path.join("/dev/", path)
                 self.get_logger().info("USB path found : {}".format(self.path_micro))
                 return
         self.get_logger().info("Error : USB path not found")
@@ -59,7 +59,7 @@ class ComNode(Node):
         97 : angle value chanel
             -> send value [0, ANGLE_LIMIT] #currently ANGLE_LIMIT = 254
         98 : speed value chanel
-            -> send value [0, SPEED_LIMIT] #currently SPEED_LIMIT = 254
+            -> send value [0, SPEED_LIMIT] #currently SPEED_LIMIT = 90
 
         99 : speed direction
             -> send 1 for backward and 0 for forward

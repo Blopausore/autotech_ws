@@ -6,16 +6,16 @@ from covaps.msg import Order
 
 
 HIGH_LIMIT_SPEED = 255
-LOW_LIMIT_SPEED = -255
+LOW_LIMIT_SPEED = 0
 HIGH_LIMIT_ANG = 90
 LOW_LIMIT_ANG = 0
 
 SPEED_STEP = 1
-ANGLE_STEP = 5
+ANGLE_STEP = 10
 
 class TeleopNode(Node):
-    linearSpeed = 0
-    angularPos = 90
+    linearSpeed = 100
+    angularPos = 45
 
     def __init__(self):
         super().__init__("Teleoperator_node")
@@ -31,7 +31,7 @@ class TeleopNode(Node):
         self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
 
     def initial_state(self):
-        self.linearSpeed = 0
+        self.linearSpeed = 100
         self.angularPos = 45
         
 
@@ -83,8 +83,7 @@ class TeleopNode(Node):
 
         elif (key == 'S'):
             self.get_logger().info("car stopped")
-            self.linearSpeed = 0
-            self.angularPos = 0
+            self.initial_state()
             self.sendOrder(self.linearSpeed, "speed")
             self.sendOrder(self.angularPos, "angular")
 
