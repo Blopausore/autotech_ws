@@ -1,3 +1,14 @@
+'''
+Author : me
+This script get datas from the car's sensors and encode them according to the AI model
+that is used.
+
+The first class named AI is like an interface, the real node is AINode.
+
+'''
+
+
+
 ##
 #%%
 import numpy
@@ -12,6 +23,7 @@ from std_msgs.msg import Float32MultiArray
 from stable_baselines3 import PPO
 
 from covaps.msg import Order
+from covaps.msg.tools import create_order
 from high_level.personal_tools import linear_transformation
 
 ##
@@ -31,6 +43,8 @@ print(os.getcwd())
 models_path = "./src/"
 model_name = "model"
 
+
+# IA Node interface
 class AI(Node):
     number_laser_points = 1081
     model = PPO.load(models_path + model_name)#mettre le nom du dossier qui contient le modèle
@@ -43,18 +57,23 @@ class AI(Node):
         self.odometry = Odometry()
 
         ## PUBLISHER
-
+        # Publish a Twist command of the linear and angular speed
         self.cmd_vel_publisher = self.create_publisher(
                 Twist, "ai_node/topic/twist", 10
         )
 
         ## SUBSCRIBER
+        # According to the first plan, AI Node could get information three differents nodes
+
+        # This represents an estimate of a position and velocity in free space
         self.laser_scan_subscriber = self.create_subscription(
             Odometry, "localisation/topic/odometry",self.callback_laser_scan,10
         )
+        # This represents a 2-D grid map, in which each cell represents the probability of occupancy
         self.occupancy_grid_subscriber = self.create_subscription(
             OccupancyGrid, "map_server/topic/occupancy_grid",self.callback_occupancy,10
         )
+         
         self.odometry_subscriber = self.create_subscription(
             Odometry, "odometry/topic/odometry",self.callback_odometry,10
         )
@@ -81,9 +100,11 @@ class AINode(AI):
     def __init__(self, **kargs):
         super().__init__(**kargs)
 
-        # Publisher
+        # Publisher of Order
         self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
         # Subscriber
+
+        # Subscribe to_ia : [distance] with distance : the distance estimated by the lidar 360 deg around
         self.sub_car = self.create_subscription(
                 Float32MultiArray, "/to_ai", self.callback_pub, 10
         )
@@ -93,7 +114,14 @@ class AINode(AI):
         
 
     def angle_rescale(self, x, coefficient=1):
-        '''Make a linear transformation to put x who was in the scale model_scale to a y in com_scale'''
+        '''
+        Make a linear transformation to put x who was in the scale model_scale to a y in com_scale
+        Exemple :
+            model_scale = [0, 1]
+            com_scale = [-1, 1]
+            We have x = 0.1 (x is in model_scale)
+            This function will return -0.8
+        '''
         return linear_transformation(
             x,
             model_scale,
@@ -102,7 +130,10 @@ class AINode(AI):
         
 
     def put_in_scale(self, x, limits):
-        '''Make sure that x is in the model scale'''
+        '''Make sure that x is in the model scale
+        If x is between the limits return x
+        If not give the limit that x have passed by
+        '''
         return max(
             limits[0],
             min(
@@ -112,13 +143,16 @@ class AINode(AI):
         )
 
     def callback_pub(self, array : Float32MultiArray):
+        # Transposed data
+        data = [[value] for value in array.data]
         
-        data = wrapperDupauvre(array.data) 
+        # Use the model to calculate the next move
         action, _ = self.model.predict(
             data,
             deterministic=True
         )
         
+        # Put in scale the model action
         self.linear_speed = self.put_in_scale(
             self.angle_rescale(numpy.float32(action[0]), derivative_coefficient) + self.linear_speed,
             speed_limit
@@ -129,6 +163,7 @@ class AINode(AI):
             angle_limit
         )
         
+        # Create the order : the command that the car will listen
         order_angular = create_order(
             "angular",
             self.angular_speed
@@ -150,21 +185,6 @@ class AINode(AI):
 
 ##
 #%%
-
-
-
-        
-def create_order(type_, val_):
-    order = Order()
-    order.val = int(val_)
-    order.type = type_
-    return order
-
-def wrapperDupauvre(listfloat) :
-    returnedList = []
-    for val in listfloat :
-        returnedList.append([val])
-    return returnedList
 
 def main(args=None):
 

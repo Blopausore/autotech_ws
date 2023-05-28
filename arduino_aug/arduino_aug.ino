@@ -32,6 +32,8 @@ void initMotorServo() {
   esc.write(180);
   esc.write(0);
   delay(4000);
+  esc.write(120);
+  delay(1000);
 }
 
 void initArdui() {
@@ -51,7 +53,6 @@ void initArdui() {
   
   Serial.println("init done");
 }
-
 
 void orderActualise(uint8_t* order, uint8_t* arg) {
   (* order) = Serial.read();
