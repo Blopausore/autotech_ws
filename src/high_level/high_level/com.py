@@ -30,7 +30,7 @@ class ComNode(Node):
         self.stm.port = self.path_micro
         self.stm.baudrate = self.baudrate
 
-        self.cmd_recv = self.create_subscription(Order, "/ai/cmd_car", self.rcv_order, 10)
+        self.cmd_recv = self.create_subscription(Order, "/cmd_car", self.rcv_order, 10)
 
 
     def find_path_micro(self):

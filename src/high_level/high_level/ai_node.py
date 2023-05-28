@@ -101,7 +101,7 @@ class AINode(AI):
         super().__init__(**kargs)
 
         # Publisher of Order
-        self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
+        self.cmd_car = self.create_publisher(Order, "/cmd_car", 10)
         # Subscriber
 
         # Subscribe to_ia : [distance] with distance : the distance estimated by the lidar 360 deg around

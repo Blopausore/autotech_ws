@@ -33,7 +33,7 @@ class TeleopNode(Node):
         self.get_logger().info("press S to stop the car")
         self.get_logger().info("press Q to quit")
         self.initial_state()
-        self.cmd_car = self.create_publisher(Order, "/ai/cmd_car", 10)
+        self.cmd_car = self.create_publisher(Order, "/cmd_car", 10)
 
     def initial_state(self):
         self.linearSpeed = 228
