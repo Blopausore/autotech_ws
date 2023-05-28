@@ -1,3 +1,9 @@
+"""
+This script is a first filter on the lidar value for the ai_node node.
+It selects laser scan that looks forward
+"""
+
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
@@ -10,6 +16,7 @@ from high_level.personal_tools import linear_transformation
 
 ##
 #%%
+
 maximum_laser_range = 10.
 laser_lidar_scale = [0, 20]
 laser_model_scale = [0, 4]
@@ -17,7 +24,9 @@ laser_model_scale = [0, 4]
 ##
 #%%
 
-
+'''ConvertToAiData
+The purpose of these functions is to select the beam scans according to the desired angle opening.
+'''
 def convertToAIdata2(scan_list, theta=90, number_points=18):
     angle_by_point = 360 / len(scan_list)
     opening_index_0 = int((180 - theta) / angle_by_point)
