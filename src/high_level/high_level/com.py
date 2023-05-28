@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+This node is responsible of the communication between ros/the high level and the car/low level
+"""
+
 import rclpy
 import serial
 from rclpy.node import Node
@@ -17,7 +21,7 @@ class ComNode(Node):
         # Recommend verbose : 2 for teleop | 1 for ai
         self.verbose = 1
         self.get_logger().info("com node started v : 1.0")
-        
+        # Connecting to the arduino
         self.find_path_micro()
         self.baudrate = 115200
         self.arduino = serial.Serial(self.path_micro, self.baudrate, timeout= 1)
@@ -30,6 +34,7 @@ class ComNode(Node):
 
 
     def find_path_micro(self):
+        """Find the USB port and initialyse it on self.path_micro"""
         self.get_logger().info("Try to find USB path")
         for path in os.listdir("/dev"):
             if path[:-1] == "ttyUSB":
@@ -41,18 +46,12 @@ class ComNode(Node):
         
     def rcv_order(self, order: Order):
         if (order.type == "speed"):
-            self.changeLinear(order.val)
+            self.changePWMSpeed(order.val)
         elif (order.type == "angular"):
-            self.changeAngular(order.val)
+            self.changePWMDir(order.val)
         else :
             self.get_logger().warning("invalide type")
 
-
-    def changeLinear(self, speedValue):
-        self.changePWMSpeed(speedValue)
-
-    def changeAngular(self, angleValue):
-        self.changePWMDir(angleValue)
 
     '''changePWM
     Order :
