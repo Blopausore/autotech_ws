@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
+"""
+This node allows you to control the car with your pad
+You are in a computer science school, you will understand this code without my help :)
+"""
 import rclpy
 from rclpy.node import Node
 from getkey import getkey, keys
 from covaps.msg import Order
+from covaps.msg.tools import create_order
 
 
 HIGH_LIMIT_SPEED = 255
@@ -36,10 +41,10 @@ class TeleopNode(Node):
         
 
     def sendOrder(self, value, type):
-        order = Order()
-        order.val = value
-        order.type = type
-        self.cmd_car.publish(order)
+        self.cmd_car.publish(create_order(
+            type_ = type, 
+            val_ = value
+        ))
 
     def readKey(self):
         res = True
