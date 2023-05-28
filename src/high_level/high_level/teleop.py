@@ -40,13 +40,13 @@ class TeleopNode(Node):
         self.angularPos = 45
         
 
-    def sendOrder(self, value, type):
+    def send_order(self, value, type):
         self.cmd_car.publish(create_order(
             type_ = type, 
             val_ = value
         ))
 
-    def readKey(self):
+    def read_key(self):
         res = True
         key = getkey()
 
@@ -57,14 +57,14 @@ class TeleopNode(Node):
             while (self.linearSpeed >= HIGH_LIMIT_SPEED) :
                 self.get_logger().info("reached limit")
                 self.linearSpeed -= SPEED_STEP
-            self.sendOrder(self.linearSpeed, "speed")
+            self.send_order(self.linearSpeed, "speed")
         elif (key == keys.DOWN):
             self.get_logger().info("slow down : {}".format(self.linearSpeed - SPEED_STEP))
             self.linearSpeed -= SPEED_STEP
             while (self.linearSpeed <= LOW_LIMIT_SPEED) :
                 self.get_logger().info("reached limit")
                 self.linearSpeed += SPEED_STEP
-            self.sendOrder(self.linearSpeed, "speed")
+            self.send_order(self.linearSpeed, "speed")
 
         #Angle control
         elif (key == keys.RIGHT):
@@ -73,14 +73,14 @@ class TeleopNode(Node):
             while self.angularPos >= HIGH_LIMIT_ANG :
                 self.get_logger().info("reached limit")
                 self.angularPos -= ANGLE_STEP
-            self.sendOrder(self.angularPos,"angular")
+            self.send_order(self.angularPos,"angular")
         elif (key == keys.LEFT):
             self.get_logger().info("turn right : {}".format(self.angularPos - ANGLE_STEP))
             self.angularPos -= ANGLE_STEP
             while self.angularPos <= LOW_LIMIT_ANG :
                 self.get_logger().info("reached limit")
                 self.angularPos += ANGLE_STEP
-            self.sendOrder(self.angularPos, "angular")
+            self.send_order(self.angularPos, "angular")
             
         elif (key == 'I'):
             self.get_logger().info("linear speed:" + str(self.linearSpeed))
@@ -89,14 +89,14 @@ class TeleopNode(Node):
         elif (key == 'S'):
             self.get_logger().info("car stopped")
             self.initial_state()
-            self.sendOrder(self.linearSpeed, "speed")
-            self.sendOrder(self.angularPos, "angular")
+            self.send_order(self.linearSpeed, "speed")
+            self.send_order(self.angularPos, "angular")
 
         elif (key == 'Q'):
             self.get_logger().info("quit teleop")
             self.initial_state()
-            self.sendOrder(self.linearSpeed, "speed")
-            self.sendOrder(self.angularPos, "angular")
+            self.send_order(self.linearSpeed, "speed")
+            self.send_order(self.angularPos, "angular")
             res = False    
         else :
             self.get_logger().info("invalid key used")
@@ -105,7 +105,7 @@ class TeleopNode(Node):
     def main(self):
         cntn = True
         while cntn :
-            cntn = self.readKey()
+            cntn = self.read_key()
 
 def main(args=None):
     rclpy.init(args=args)
