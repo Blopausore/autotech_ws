@@ -15,7 +15,7 @@ Je vous conseil donc de vous référer au code de chacun afin de comprendre leur
 ## Fonctionnement global
 
 
-Lorsqu'un lidar émet les données analysés, le noeud ![**urg_node**][./src/urg_node/README.md] les renvoies sous forme de tableau de distance détecter par le lidar tout autour de la voiture. Ensuite **AiNode** séléctionne parmis ces distances celles qui sont intérressantes et les publies pour le noeud **AiNode** celui-ci adapte ces données recues pour préduire grâce au model entraîné une action, une commande de vélocité qui est communiqué à **ComNode**. Ce dernier noeud publiera au bas niveau les commandes de vitesses.
+Lorsqu'un lidar émet les données analysés, le noeud [**urg_node**][./src/urg_node/README.md] les renvoies sous forme de tableau de distance détecter par le lidar tout autour de la voiture. Ensuite **AiNode** séléctionne parmis ces distances celles qui sont intérressantes et les publies pour le noeud **AiNode** celui-ci adapte ces données recues pour préduire grâce au model entraîné une action, une commande de vélocité qui est communiqué à **ComNode**. Ce dernier noeud publiera au bas niveau les commandes de vitesses.
 
 De plus un noeud **Teleop** permet le pilotage de la voiture par ordinateur.
 
