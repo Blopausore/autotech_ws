@@ -19,3 +19,28 @@ Lorsqu'un lidar émet les données analysés, le noeud **urg_node** les renvoies
 
 De plus un noeud **Teleop** permet le pilotage de la voiture par ordinateur.
 
+## Lancement 
+
+### Build 
+
+#### Colcon
+```bash
+colcon build --packages-select covaps
+colcon build --packages-select high_level
+```
+
+#### Source
+
+```bash
+source install/local_setup.bash
+```
+
+### Launch
+
+#### ros run
+* teleop_node
+* com_node
+* ai_node
+```bash
+ros2 run high_level [node name]
+```

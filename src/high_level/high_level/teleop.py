@@ -7,8 +7,12 @@ import rclpy
 from rclpy.node import Node
 from getkey import getkey, keys
 from covaps.msg import Order
-from covaps.msg.tools import create_order
-
+#  
+def create_order(type_, val_):
+    order = Order()
+    order.val = int(val_)
+    order.type = type_
+    return order
 
 HIGH_LIMIT_SPEED = 255
 LOW_LIMIT_SPEED = 0

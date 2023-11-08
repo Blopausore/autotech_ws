@@ -1,5 +1,4 @@
 from setuptools import setup
-
 package_name = 'high_level'
 
 setup(
